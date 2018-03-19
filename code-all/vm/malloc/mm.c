@@ -66,6 +66,7 @@ static void checkblock(void *bp);
 int mm_init(void) 
 {
     /* Create the initial empty heap */
+    //分配一个4个WORD大小的空间，创建一个空的implicit free list
     if ((heap_listp = mem_sbrk(4*WSIZE)) == (void *)-1) //line:vm:mm:begininit
 		return -1;
     PUT(heap_listp, 0);                          /* Alignment padding */
@@ -107,6 +108,7 @@ void *mm_malloc(size_t size)
 		return NULL;
 
     /* Adjust block size to include overhead and alignment reqs. */
+    //保证block的大小是2 * DSZIZE的倍数
     if (size <= DSIZE)                                          //line:vm:mm:sizeadjust1
 		asize = 2*DSIZE;                                        //line:vm:mm:sizeadjust2
     else
